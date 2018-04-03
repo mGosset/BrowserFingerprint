@@ -1,5 +1,3 @@
-import sys
-
 #importation de la fonction Fingerprint du programme fingerprint
 from fingerprint import Fingerprint
 
@@ -24,7 +22,7 @@ def get_fingerprints_experiments(cur, min_nb_fingerprints, attributes, limitTest
 
 #connection à la base de donnée appelé fingerprint avec le mot de passe bdd
 #on se limite à 10 empreintes par personne et à un curseur de 50000
-def main(argv):
+def main():
     con = mdb.connect('localhost', 'root', 'bdd', 'fingerprint')
     cur = con.cursor(mdb.cursors.DictCursor)
     attributes = Fingerprint.MYSQL_ATTRIBUTES
@@ -33,4 +31,4 @@ def main(argv):
 
 #mettre des arguments dans le main
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()
