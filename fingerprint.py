@@ -52,6 +52,7 @@ class Fingerprint():
 
     NB_FONTS = "nbFonts"
 
+    # Attributs de la table extensionData
     MYSQL_ATTRIBUTES = set([COUNTER, ID, CREATION_TIME, END_TIME, ADDRESS_HTTP,
                             USER_AGENT_HTTP, ACCEPT_HTTP, HOST_HTTP,
                             CONNECTION_HTTP, ENCODING_HTTP, LANGUAGE_HTTP,
