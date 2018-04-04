@@ -1,8 +1,13 @@
 #importation de la fonction Fingerprint du programme fingerprint
-from fingerprint import Fingerprint
+from src.fingerprint import Fingerprint
 
 #importation du package MySQLdb
 import MySQLdb as mdb
+# importation du package MySQLdb
+import MySQLdb as mdb
+
+from src.fingerprint import Fingerprint
+
 
 #création d'une fonction
 def get_fingerprints_experiments(cur, min_nb_fingerprints, attributes, limitTest=300000):
