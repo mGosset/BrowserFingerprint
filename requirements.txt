@@ -65,3 +65,4 @@ wcwidth==0.1.7
 webencodings==0.5.1
 whichcraft==0.4.1
 widgetsnbextension==3.2.0
+pandas
