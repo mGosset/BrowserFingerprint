@@ -196,6 +196,9 @@ class Fingerprint():
     def getUserAgent(self):
         return self.val_attributes[Fingerprint.USER_AGENT_HTTP]
 
+    def getLanguages(self):
+        return self.val_attributes[Fingerprint.LANGUAGE_HTTP]
+
     def getFonts(self):
         if self.hasFlashActivated():
             return self.val_attributes[Fingerprint.FONTS_FLASH].split("_")
