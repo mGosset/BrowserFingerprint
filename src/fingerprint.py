@@ -56,15 +56,20 @@ class Fingerprint():
     MYSQL_ATTRIBUTES = set([COUNTER, ID, CREATION_TIME, END_TIME, ADDRESS_HTTP,
                             USER_AGENT_HTTP, ACCEPT_HTTP, HOST_HTTP,
                             CONNECTION_HTTP, ENCODING_HTTP, LANGUAGE_HTTP,
-                            ORDER_HTTP, PLUGINS_JS, PLATFORM_JS, COOKIES_JS,
+                            ORDER_HTTP, PLUGINS_JS, PLUGINS_JS_HASHED, PLATFORM_JS, COOKIES_JS,
                             DNT_JS, TIMEZONE_JS, RESOLUTION_JS, LOCAL_JS,
                             SESSION_JS, IE_DATA_JS, CANVAS_JS_HASHED,
                             FONTS_FLASH, RESOLUTION_FLASH, LANGUAGE_FLASH,
                             PLATFORM_FLASH, AD_BLOCK])
 
-    def __init__(self, list_attributes, val_attributes):
+    ANALYSIS_ATTRIBUTES = [COUNTER, ID, CREATION_TIME, END_TIME, ADDRESS_HTTP, USER_AGENT_HTTP, ACCEPT_HTTP,
+                           CONNECTION_HTTP, ENCODING_HTTP, LANGUAGE_HTTP, ORDER_HTTP, PLUGINS_JS_HASHED,
+                           PLATFORM_JS, COOKIES_JS, DNT_JS, TIMEZONE_JS, RESOLUTION_JS, LOCAL_JS, SESSION_JS,
+                           CANVAS_JS_HASHED, FONTS_FLASH_HASHED, RESOLUTION_FLASH, LANGUAGE_FLASH, PLATFORM_FLASH]
+
+    def __init__(self, val_attributes):
         self.val_attributes = dict()
-        for attribute in list_attributes:
+        for attribute in val_attributes:
             try:
                 self.val_attributes[attribute] = val_attributes[attribute]
             except:
@@ -73,22 +78,19 @@ class Fingerprint():
                 self.val_attributes[attribute] = None
 
         # we reorder resolution when necessary (usefull for mobile users)
-        if Fingerprint.RESOLUTION_JS in list_attributes:
+        if Fingerprint.RESOLUTION_JS in val_attributes:
             if self.val_attributes[Fingerprint.RESOLUTION_JS] != "no JS":
                 split_res = self.val_attributes[Fingerprint.RESOLUTION_JS].split("x")
                 if len(split_res) > 1 and split_res[1] > split_res[0]:
                     self.val_attributes[Fingerprint.RESOLUTION_JS] = split_res[1] +\
                         "x"+ split_res[0] + "x"+ split_res[2]
 
-        if Fingerprint.PLUGINS_JS in list_attributes:
-            plugins = self.getPlugins()
-
-        if Fingerprint.ORDER_HTTP in list_attributes:
+        if Fingerprint.ORDER_HTTP in val_attributes:
             orders = self.val_attributes[Fingerprint.ORDER_HTTP].split(" ")
             orders.sort()
             self.val_attributes[Fingerprint.ORDER_HTTP] = " ".join(orders)
 
-        if Fingerprint.USER_AGENT_HTTP in list_attributes:
+        if Fingerprint.USER_AGENT_HTTP in val_attributes:
             parsedUa = user_agent_parser.Parse(val_attributes[Fingerprint.USER_AGENT_HTTP])
             self.val_attributes[Fingerprint.BROWSER_FAMILY] = parsedUa["user_agent"]["family"]
             self.val_attributes[Fingerprint.MINOR_BROWSER_VERSION] = parsedUa["user_agent"]["minor"]
