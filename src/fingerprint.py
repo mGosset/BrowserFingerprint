@@ -52,6 +52,8 @@ class Fingerprint():
 
     NB_FONTS = "nbFonts"
 
+    CONSISTENT = "consistent"
+
     # Attributs de la table extensionData
     MYSQL_ATTRIBUTES = set([COUNTER, ID, CREATION_TIME, END_TIME, ADDRESS_HTTP,
                             USER_AGENT_HTTP, ACCEPT_HTTP, HOST_HTTP,
@@ -117,6 +119,70 @@ class Fingerprint():
                 self.val_attributes[Fingerprint.FONTS_FLASH] != "Flash detected but blocked by an extension"
         except:
             return False
+
+    def hasPlatformInconsistency(self):
+        if self.hasJsActivated():
+            try:
+                plat = ""
+                platUa = self.getOs()[0:3].lower()
+                if self.hasFlashActivated():
+                    platFlash = self.val_attributes[Fingerprint.PLATFORM_FLASH][0:3].lower()
+                    plat = platFlash
+                else:
+                    platJs = self.val_attributes[Fingerprint.PLATFORM_JS][0:3].lower()
+                    plat = platJs
+                    if (platUa == "lin" or platUa=="ubu" or platUa =="ios" or platUa=="and") and self.val_attributes[Fingerprint.PLUGINS_JS].find(".dll") > -1:
+                        return True
+                    if platUa.startswith("ip") and self.val_attributes[Fingerprint.PLUGINS_JS].lower().find("flash") > -1:
+                        return True
+                    if (platUa == "win" or platUa == "mac" or platUa == "ios") and self.val_attributes[Fingerprint.PLUGINS_JS].find(".so") > -1:
+                        return True
+                    if (platUa == "ubu" or platUa == "win" or platUa == "lin") and self.val_attributes[Fingerprint.PLUGINS_JS].find(".plugin") > -1:
+                        return True
+                incons = not(plat == platUa)
+                if plat == "lin" and platUa == "and":
+                    incons = False
+                elif plat == "lin" and platUa == "ubu":
+                    incons = False
+                elif plat == "x64" and platUa == "win":
+                    incons = False
+                elif plat == "ipa" and platUa == "ios":
+                    incons = False
+                elif plat == "iph" and platUa == "ios":
+                    incons = False
+                elif plat == "" and platUa == "":
+                    incons = True
+
+                elif plat == "lin" and platUa == "and":
+                    incons = False
+                elif plat == "lin" and platUa == "ubu":
+                    incons = False
+                elif plat == "x64" and platUa == "win":
+                    incons = False
+                elif plat == "ipa" and platUa == "ios":
+                    incons = False
+                elif plat == "iph" and platUa == "ios":
+                    incons = False
+                elif plat == "ipo" and platUa == "ios":
+                    incons = False
+                elif self.getOs() == "Windows Phone" and plat == "arm":
+                    incons = False
+                elif plat == "arm" and self.val_attributes[Fingerprint.USER_AGENT_HTTP].find("SIM") > -1:
+                    incons = False
+                elif platUa == "chr" and plat == "lin":
+                    incons = False
+                elif self.val_attributes[Fingerprint.USER_AGENT_HTTP].find("Touch") > -1 and plat == "arm":
+                    incons = False
+                elif platUa == "oth":
+                    incons = False
+                elif plat == "" and platUa == "":
+                    incons = True
+
+                return incons
+            except:
+                return True
+        else:
+            raise ValueError("Javascript is not activated")
 
     def getStartTime(self):
         return self.val_attributes[Fingerprint.CREATION_TIME]
