@@ -5,3 +5,4 @@ numpy
 ua_parser
 scipy
 jupyter
+pandas
