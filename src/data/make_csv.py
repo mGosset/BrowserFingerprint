@@ -2,18 +2,21 @@ import os
 
 from dotenv import load_dotenv, find_dotenv
 import logging
+import re
 
 from src import CSV_DELIMITER
 from src import utils
 from src.fingerprint import Fingerprint
 
 
+# TODO: if timezone is not a multiple of 60, then it should be inconsistent
 def get_id_to_consistency(cur):
     BATCH_SIZE = 5000
     id_to_oses = dict()
     id_to_browsers = dict()
     id_to_nb_inconsistencies = dict()
     id_to_nb_fps = dict()
+    number_re = re.compile(r"[+-]?([0-9]*[.])?[0-9]+")
 
     cur.execute("SELECT max(counter) as nb_fps from extensionData")
     nb_fps = cur.fetchone()["nb_fps"] +1
@@ -56,6 +59,19 @@ def get_id_to_consistency(cur):
                         id_to_nb_inconsistencies[fp.getId()] += 5
                     else:
                         id_to_nb_inconsistencies[fp.getId()] = 5
+
+                # custom rules for extension only
+                if fp.getOs() == "Nintendo Wii":
+                    id_to_nb_inconsistencies[fp.getId()] = 1000000
+                elif fp.getOs() == "oMbyWlGAKlXD9wFfSs2wUM":
+                    id_to_nb_inconsistencies[fp.getId()] = 1000000
+                elif fp.getOs() == "masking-agent":
+                    id_to_nb_inconsistencies[fp.getId()] = 1000000
+                elif fp.getOs() == "x86":
+                    id_to_nb_inconsistencies[fp.getId()] = 1000000
+
+                if number_re.fullmatch(fp.getLanguages()) is not None:
+                    id_to_nb_inconsistencies[fp.getId()] = 1000000
 
                 if fp.getId() in id_to_nb_fps:
                     id_to_nb_fps[fp.getId()] += 1
