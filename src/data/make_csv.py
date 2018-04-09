@@ -31,7 +31,7 @@ def get_id_to_consistency(cur):
             try:
                 fp = Fingerprint(fp_dict)
                 if fp.getId() in id_to_oses:
-                    id_to_oses[fp.getId()].add(fp.getOS())
+                    id_to_oses[fp.getId()].add(fp.getOs())
                 else:
                     id_to_oses[fp.getId()] = set()
                     id_to_oses[fp.getId()].add(fp.getOs())
@@ -82,7 +82,8 @@ def get_id_to_consistency(cur):
                 if fp.getId() not in id_to_nb_inconsistencies:
                     id_to_nb_inconsistencies[fp.getId()] = 0
 
-            except:
+            except Exception as e:
+                print(e)
                 id_to_nb_inconsistencies[fp_dict["id"]] = 1000000
 
     user_id_consistent = [x for x in id_to_nb_fps if
@@ -96,7 +97,7 @@ def get_id_to_consistency(cur):
     user_id_consistent = [user_id for user_id in user_id_consistent if user_id not in poisoner_ids]
 
     cur.execute("SELECT DISTINCT(id) FROM extensionData")
-
+    print(len(user_id_consistent))
     user_id_to_consistency = dict()
     user_ids = cur.fetchall()
     for row in user_ids:
