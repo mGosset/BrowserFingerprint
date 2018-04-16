@@ -69,7 +69,7 @@ class Fingerprint():
                            PLATFORM_JS, COOKIES_JS, DNT_JS, TIMEZONE_JS, RESOLUTION_JS, LOCAL_JS, SESSION_JS,
                            CANVAS_JS_HASHED, FONTS_FLASH_HASHED, RESOLUTION_FLASH, LANGUAGE_FLASH, PLATFORM_FLASH,
                            BROWSER_FAMILY, GLOBAL_BROWSER_VERSION, MINOR_BROWSER_VERSION, MAJOR_BROWSER_VERSION, OS,
-                           RENDERER, VENDOR]
+                           RENDERER, VENDOR, PLUGINS_JS]
 
     def __init__(self, val_attributes):
         self.val_attributes = dict()
