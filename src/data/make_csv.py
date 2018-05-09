@@ -82,6 +82,37 @@ def get_id_to_consistency(cur):
                 if fp.getId() not in id_to_nb_inconsistencies:
                     id_to_nb_inconsistencies[fp.getId()] = 0
 
+                if fp.getId() == "bc19c32d-a271-4dd7-b5e6-62d36d1a3128":
+                    id_to_nb_inconsistencies[fp.getId()] = 100
+
+                # encodingHttp=NaN
+                elif fp.getId() == "74fcb14e-2bff-428f-b7a3-82b0ed2a8397":
+                    id_to_nb_inconsistencies[fp.getId()] = 100000
+                elif fp.getId() == "91bd68b4-4ba0-4479-8ab2-ac98357b51e1":
+                    id_to_nb_inconsistencies[fp.getId()] = 100000
+                elif fp.getId() == "be8f292f-aeae-4d7a-ac65-8ff7797e1ca0":
+                    id_to_nb_inconsistencies[fp.getId()] = 100000
+
+                # languageHttp=NaN
+                elif fp.getId() == "6f6a85bd-482e-496c-a314-1a791d5ae86a":
+                    id_to_nb_inconsistencies[fp.getId()] = 100000
+                elif fp.getId() == "73c677d0-50b3-42a8-b61f-46a3b73a98ad":
+                    id_to_nb_inconsistencies[fp.getId()] = 100000
+                elif fp.getId() == "a57972d8-6bf8-44fd-a7b7-12d76f4aabe1":
+                    id_to_nb_inconsistencies[fp.getId()] = 100000
+                elif fp.getId() == "d93dcb55-49a0-4185-a1a8-060371b61a32":
+                    id_to_nb_inconsistencies[fp.getId()] = 100000
+
+                # userAgentHttp=NaN
+
+                # platformJS=NaN
+
+
+                elif fp.getUserAgent() == "this is a test":
+                    id_to_nb_inconsistencies[fp.getId()] = 100000
+                elif fp.getUserAgent() == "PlayStation 4 3.15":
+                    id_to_nb_inconsistencies[fp.getId()] = 100000
+
             except Exception as e:
                 print(e)
                 id_to_nb_inconsistencies[fp_dict["id"]] = 1000000
