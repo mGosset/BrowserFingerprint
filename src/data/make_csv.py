@@ -9,7 +9,7 @@ from src import utils
 from src.fingerprint import Fingerprint
 
 
-# TODO: if timezone is not a multiple of 60, then it should be inconsistent
+
 def get_id_to_consistency(cur):
     BATCH_SIZE = 5000
     id_to_oses = dict()
